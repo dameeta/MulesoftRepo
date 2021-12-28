@@ -1,0 +1,76 @@
+example application receives the list of users in JSON format. Every record in the list should contains id, email in correct format, object with information about user connection. Connection info should contains IP address. If all of the mentioned fields are presented and validation process is successful as well, we will see: User records are valid! in response of the HTTP call.
+Set Up and Run the Example
+Complete the following procedure to create, then run this example in your own instance of Anypoint Studio. Skip ahead to the next section if you prefer to simply examine this example.
+
+Open the Example project in Anypoint Studio from Anypoint Exchange.
+
+In your application in Studio, click the Global Elements tab. Double-click the HTTP Listener global element to open its Global Element Properties panel. Change the contents of the port field to required HTTP port e.g. 8081
+
+In the Package Explorer pane in Studio, right-click the project name, then select Run As > Mule Application. Studio runs the application and Mule is up and kicking!
+
+Send a POST request with the following JSON in the body to http:/localhost:8081.
+
+ [
+ 	{
+ 		"id": "8fa8435c-fca4-4b42-9b5a-e81f9bd9aa16",
+ 		"username": "bob",
+ 		"email": "bob@mulesoft",
+ 		"connectionInfo": {
+ 			"IPAddress": "212.141.190.171",
+ 			"MACAddress": "2A-7A-6F-D3-64-54"
+ 		}
+ 	},{
+ 		"id": "f125a585-df12-404a-8c80-711d117dd353",
+ 		"username": "greg",
+ 		"email": "greg@mulesoft.com",
+ 		"connectionInfo": {
+ 			"IPAddress": "128.211.42.181",
+ 			"MACAddress": "8D-BD-C3-C4-D8-A4"
+ 		}
+ 	},{
+ 		"id": "6d4747ee-eb00-4e81-b7dc-2b01585e6d99",
+ 		"username": "anna",
+ 		"email": "anna@mulesoft.com",
+ 		"connectionInfo": {
+ 			"IPAddress": "40.125.118.175",
+ 			"MACAddress": "9E-05-9B-68-8E-80"
+ 		}
+ 	}
+ ]
+Examine the response body to see that validation has been not successful:
+
+ Email in record: {
+   "id": "8fa8435c-fca4-4b42-9b5a-e81f9bd9aa16",
+   "username": "bob",
+   "email": "bob@mulesoft",
+   "connectionInfo": {
+     "IPAddress": "212.141.190.171",
+     "MACAddress": "2A-7A-6F-D3-64-54"
+   }
+ } is not valid!
+As you can see email is not valid. Try to fix it with .com suffix.
+
+Examine the response body to see that validation has been not successful once again:
+
+ IP address of record: {
+   "id": "6d4747ee-eb00-4e81-b7dc-2b01585e6d99",
+   "username": "anna",
+   "email": "anna@mulesoft.com",
+   "connectionInfo": {
+     "IPAddress": "40.125.118.175",
+     "MACAddress": "9E-05-9B-68-8E-80"
+   }
+ } is on blacklist!
+Looks like email address of that user is blacklisted.
+
+In case that you will send valid message, you will see: User records are valid! in the response of HTTP call.
+
+How it Works
+The following steps outline the process to build an application for validation of messages.
+
+Create a new Mule Project by going to File > New... > Mule Project and name it Filtering a Message.
+Drop an HTTP Listener to the flow.
+Create configuration for HTTP listener with the port you want.
+Add Validation module to the Anypoint Studio palette.
+Validation module contains a lot of components - drop some of them you want to try to your flow with the HTTP listener in the beginning.
+Run the example!
